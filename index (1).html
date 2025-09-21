@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tablet Policía — Panel de Actuación</title>
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220;
+      --muted:#9aa6b2;
+      --accent:#0ea5e9; /* cyan */
+      --accent-2:#2563eb; /* blue */
+      --ok:#10b981;
+      --danger:#ef4444;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#07101a);color:#e6eef6}
+    .tablet{max-width:1100px;margin:24px auto;padding:18px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(2,6,23,0.7);display:grid;grid-template-columns:360px 1fr;gap:18px}
+    header{grid-column:1/-1;display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .badge{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),var(--accent));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(10,20,40,0.6)}
+    .badge svg{width:34px;height:34px}
+    h1{font-size:18px;margin:0}
+    .subtitle{font-size:12px;color:var(--muted)}
+
+    /* left panel */
+    .left{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.00));padding:14px;border-radius:10px}
+    label{display:block;font-size:12px;color:var(--muted);margin:8px 0 6px}
+    select,input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;font-size:14px}
+    .row{display:flex;gap:10px}
+    .small{flex:1}
+    .actions{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .btn{padding:10px 12px;border-radius:8px;border:none;background:var(--accent);color:#022;cursor:pointer;font-weight:600}
+    .btn.gray{background:#0b1220;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+    /* right panel */
+    .right{background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.00));padding:14px;border-radius:10px;display:flex;flex-direction:column}
+    .panel-row{display:flex;gap:12px}
+    .card{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;flex:1}
+    .title{font-size:13px;margin-bottom:8px}
+    .articles{max-height:260px;overflow:auto;padding-right:6px}
+    .article{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;margin-bottom:6px;background:linear-gradient(180deg,transparent,rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02)}
+    .article small{color:var(--muted)}
+    .summary{margin-top:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:10px;border-radius:8px}
+    pre{white-space:pre-wrap;color:#d7eefb;font-size:13px}
+    .preview{font-size:13px;color:var(--muted)}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .chip{background:rgba(14,165,233,0.12);color:var(--accent);padding:6px 8px;border-radius:999px;font-weight:600}
+
+    footer{grid-column:1/-1;margin-top:10px;display:flex;justify-content:space-between;align-items:center}
+    .note{font-size:12px;color:var(--muted)}
+
+    /* responsive */
+    @media(max-width:880px){.tablet{grid-template-columns:1fr;padding:12px}.left{order:2}.right{order:1}}
+  </style>
+</head>
+<body>
+  <div class="tablet" role="application">
+    <header>
+      <div class="brand">
+        <div class="badge" aria-hidden>
+          <!-- shield icon -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l7 3v5c0 5-4 10-7 12-3-2-7-7-7-12V5l7-3z" fill="white" opacity="0.95"/></svg>
+        </div>
+        <div>
+          <h1>Tablet Policía — Panel de Actuación</h1>
+          <div class="subtitle">Selecciona cuerpo, placa y registra actuaciones rápidas</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="left" aria-labelledby="ident">
+      <label for="cuerpo">Cuerpo</label>
+      <select id="cuerpo" aria-label="Seleccionar cuerpo">
+        <option value="Policía Nacional">Policía Nacional</option>
+        <option value="Guardia Civil">Guardia Civil</option>
+        <option value="Policía Local">Policía Local / Municipal</option>
+      </select>
+
+      <label for="placa">Placa / Identificador</label>
+      <input id="placa" placeholder="Ej: PN-4521" />
+
+      <label for="unidad">Unidad / Patrulla (opcional)</label>
+      <input id="unidad" placeholder="Ej: Unidad 19" />
+
+      <label for="localizacion">Localización</label>
+      <input id="localizacion" placeholder="Calle, distrito o coordenadas" />
+
+      <label for="tipo">Tipo de actuación</label>
+      <select id="tipo">
+        <option value="Arresto">Arresto</option>
+        <option value="Multa">Multa / Acta</option>
+        <option value="Comprobación">Comprobación de antecedentes</option>
+        <option value="Inmovilizacion">Retirada / Inmovilización vehículo</option>
+      </select>
+
+      <label for="nombre">Datos persona / conductor</label>
+      <input id="nombre" placeholder="Nombre completo / DNI" />
+
+      <label for="obs">Observaciones</label>
+      <textarea id="obs" rows="3" placeholder="Breve resumen de la actuación"></textarea>
+
+      <div class="actions">
+        <button class="btn" id="generar">Generar registro</button>
+        <button class="btn gray" id="limpiar">Limpiar</button>
+      </div>
+    </section>
+
+    <section class="right">
+      <div class="panel-row">
+        <div class="card">
+          <div class="title">Artículos (selecciona uno o varios)</div>
+          <div class="articles" id="articles">
+            <!-- articles inserted by JS -->
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">Resumen rápido</div>
+          <div class="summary" id="summary">
+            <div class="preview">Rellena la izquierda y selecciona artículos. Aquí verás el mensaje listo para enviar al canal de seguimiento.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:12px">
+        <div class="card" style="flex:1">
+          <div class="title">Vista previa (formato Discord embed)</div>
+          <pre id="embedPreview">—</pre>
+        </div>
+        <div class="card" style="width:260px">
+          <div class="title">Etiquetas</div>
+          <div class="chips" id="chips"></div>
+          <div style="margin-top:10px">
+            <button id="copiar" class="btn gray" style="width:100%">Copiar texto</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="note">Envío: webhook → Canal Discord ID: <strong>1408177052083028102</strong></div>
+      <div class="note">Todas las actuaciones quedan registradas con hora y usuario.</div>
+    </footer>
+  </div>
+
+  <script>
+    // Datos de artículos (resumidos) — puedes pegar aquí la lista completa si quieres
+    const ART = [
+      {id:'1.7', title:'Saltarse semáforo en rojo', price:'400 €'},
+      {id:'1.15', title:'Conducir bajo alcohol', price:'1200 € + inmovilización'},
+      {id:'1.16', title:'Conducir bajo drogas', price:'1800 € + retirada carnet 12m'},
+      {id:'2.2', title:'Robo con violencia a civil', price:'1200 € + 12m prisión'},
+      {id:'2.4', title:'Robo en vivienda habitada', price:'4000 € + 24m prisión'},
+      {id:'3.1', title:'Agresión física leve', price:'300 € + 2m prisión'},
+      {id:'3.8', title:'Portar armas de fuego sin licencia', price:'1500 € + 12m prisión'},
+      {id:'4.1', title:'Posesión marihuana consumo propio', price:'600 €'},
+      {id:'4.3', title:'Tráfico de cocaína (>100g)', price:'15.000 € + 30m prisión'},
+      {id:'5.1', title:'Soborno a funcionario', price:'2000 € + 8m prisión'}
+    ];
+
+    const articlesNode = document.getElementById('articles');
+    ART.forEach(a=>{
+      const div = document.createElement('div'); div.className='article';
+      div.innerHTML = `<input type=checkbox id='art-${a.id}' data-id='${a.id}' data-title='${a.title}' data-price='${a.price}'><div style="flex:1"><strong>${a.id}</strong> — ${a.title}<br><small>${a.price}</small></div>`;
+      articlesNode.appendChild(div);
+    });
+
+    function getForm(){
+      return {
+        cuerpo:document.getElementById('cuerpo').value,
+        placa:document.getElementById('placa').value.trim()||'---',
+        unidad:document.getElementById('unidad').value.trim(),
+        localizacion:document.getElementById('localizacion').value.trim()||'Desconocida',
+        tipo:document.getElementById('tipo').value,
+        nombre:document.getElementById('nombre').value.trim()||'No informado',
+        obs:document.getElementById('obs').value.trim()
+      }
+    }
+
+    function buildEmbed(data, selected){
+      const idExp = 'EXP-'+Date.now().toString().slice(-8);
+      const lines = [];
+      lines.push(`Registro policial — ${data.tipo}`);
+      lines.push(`Cuerpo: ${data.cuerpo} | Placa: ${data.placa}`);
+      lines.push(`Acción: ${data.tipo}`);
+      if(selected.length) lines.push(`Motivo(s): ${selected.map(s=>s.id+' '+s.title).join('; ')}`);
+      lines.push(`Importe/Consecuencias: ${selected.map(s=>s.price).join(' | ')}`);
+      lines.push(`Detenido/Víctima: ${data.nombre}`);
+      lines.push(`Localización: ${data.localizacion}`);
+      lines.push(`Hora: ${new Date().toLocaleString()}`);
+      lines.push(`Observaciones: ${data.obs||'—'}`);
+      lines.push(`Expediente ID: #${idExp}`);
+      return lines.join('\n');
+    }
+
+    function updatePreview(){
+      const data = getForm();
+      const checks = [...document.querySelectorAll('#articles input[type=checkbox]')].filter(c=>c.checked).map(c=>({id:c.dataset.id,title:c.dataset.title,price:c.dataset.price}));
+      document.getElementById('embedPreview').textContent = buildEmbed(data,checks);
+      const chips = document.getElementById('chips'); chips.innerHTML='';
+      checks.forEach(s=>{const el=document.createElement('div');el.className='chip';el.textContent=`${s.id}`;chips.appendChild(el)});
+      const summary = document.getElementById('summary');
+      summary.innerHTML = `<strong>${data.tipo} — ${data.cuerpo} (${data.placa})</strong><div style="margin-top:8px;color:var(--muted)">Motivos: ${checks.length?checks.map(x=>x.id+' '+x.title).join('; '):'Ninguno seleccionado'}</div>`;
+    }
+
+    document.querySelectorAll('#articles input').forEach(i=>i.addEventListener('change',updatePreview));
+    document.querySelectorAll('select,input,textarea').forEach(i=>i.addEventListener('input',updatePreview));
+
+    document.getElementById('generar').addEventListener('click',()=>{
+      const data = getForm();
+      const selected = [...document.querySelectorAll('#articles input[type=checkbox]')].filter(c=>c.checked).map(c=>({id:c.dataset.id,title:c.dataset.title,price:c.dataset.price}));
+      if(!data.placa || data.placa==='---'){alert('Introduce la placa del agente antes de generar.');return}
+      // Aquí simulamos el envío al canal Discord (webhook)
+      const payload = buildEmbed(data,selected);
+      // En un entorno real, se haría POST a un webhook; en Base44 podrías usar la acción HTTP del backend.
+      console.log('Enviar al webhook (canal ID 1408177052083028102):\n',payload);
+      alert('Registro generado y listo para enviar (simulado). Copia el texto o integra el webhook en tu backend.');
+    });
+
+    document.getElementById('limpiar').addEventListener('click',()=>{document.querySelectorAll('input[type=text],textarea').forEach(i=>i.value='');document.querySelectorAll('#articles input').forEach(c=>c.checked=false);updatePreview();});
+
+    document.getElementById('copiar').addEventListener('click',()=>{const txt=document.getElementById('embedPreview').textContent;navigator.clipboard.writeText(txt).then(()=>{alert('Texto copiado al portapapeles');}).catch(()=>{alert('No se pudo copiar automáticamente. Selecciona y copia manualmente.');})});
+
+    // init
+    updatePreview();
+  </script>
+</body>
+</html>
